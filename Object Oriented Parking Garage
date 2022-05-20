@@ -1,0 +1,51 @@
+class ParkingGarage():
+    def __init__(self):
+        self.tickets = [1,2,3,4,5,6,7,8,9,10]
+        self.parking_spaces = [1,2,3,4,5,6,7,8,9,10]
+        self.current_tickets = {}
+    def takeTicket(self):
+        total_current_tickets = len(list(self.current_tickets.keys()))
+        total_tickets = len(self.tickets)
+        if  total_current_tickets == total_tickets:
+            print("Garage is full")
+        elif total_current_tickets != total_tickets:
+            ticket = self.tickets.pop()
+            self.current_tickets[ticket] = ''
+            print(f"Welcome your ticket # is {ticket}")
+            self.parking_spaces.pop()
+            
+    def payForParking(self):
+        ticket_number = int(input("What is your ticket # Or 'quit' to exit "))
+        if ticket_number not in list(self.current_tickets.keys()):
+            print("we could not find that ticket number")
+        for i in list(self.current_tickets.keys()):
+            if i == ticket_number:
+                pay_now = input("Ticket found, please pay now by typing 'paying' or 'quit' to exit")
+                if pay_now.lower() == 'pay':
+                    self.current_tickets[i] = "Paid"
+              
+            
+    def leave_garage(self):
+        ticket_number = int(input("What's your ticket # Or type 'quit' to exit: "))
+        if self.current_tickets[ticket_number] == 'Paid':
+            self.current_tickets.pop(ticket_number)
+            self.tickets.append(ticket_number)
+            self.parking_spaces.append(ticket_number)
+            print("Thank You. Have a nice day!")
+        else:
+            print("Please type in paying")
+        
+parking = ParkingGarage()  
+def run():
+    while True:
+        response = input("Are you entering, exiting, paying, or quit?")
+        if response.lower() == 'quit':
+            print("Thanks for stopping by, have a nice day")
+            break
+        if response.lower() == 'entering':
+            parking.takeTicket()
+        if response.lower() == 'paying':
+            parking.payForParking()
+        if response.lower() == 'exiting':
+            parking.leave_garage()
+run()
